@@ -216,3 +216,16 @@ where d.week_no = "W10"
 group by c.post_type
 order by total_shares desc;
 
+-- code for the procedure
+
+-- CREATE DEFINER=`root`@`localhost` PROCEDURE `Total_Shares_by_post_Type`(in week_num int )
+-- BEGIN
+-- 	select c.post_type,sum(c.shares) as total_shares
+-- 	from fact_content c
+-- 	join dim_dates d
+-- 	on c.date = d.date
+-- 	where d.week_no = concat("W",week_num)
+-- 	group by c.post_type
+-- 	order by total_shares desc;
+-- END
+
