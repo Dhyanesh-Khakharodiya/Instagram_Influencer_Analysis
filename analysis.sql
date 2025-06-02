@@ -1,22 +1,18 @@
 -- 1. How many unique post types are found in the 'fact_content' table?
 
-select * from fact_content;
-
 select DISTINCT(post_type) as unique_post_types from fact_content;
 
--- 2. What are the highest and lowest recorded impressions for each post type?
 
-select * from fact_content;
+-- 2. What are the highest and lowest recorded impressions for each post type?
 
 select post_type,min(impressions) as min_impression,
 max(impressions) as max_impression
 from fact_content
 group by post_type;
 
+
 -- 3. Filter all the posts that were published on a weekend in the month of March and April 
 -- and export them to a separate csv file.
-
-select * from fact_content;
 
 select * from fact_content
 where monthname(date) in ("March","April")
@@ -77,20 +73,9 @@ with cte1 as
 (
 select *,monthname(date) as month_name from fact_content
 )
-select month_name,post_category,
- count(*) as post_category_count 
- from cte1
-group by month_name,post_category;
- 
--- Real
-
-with cte1 as
-(
-select *,monthname(date) as month_name from fact_content
-)
 select month_name,
 group_concat(DISTINCT post_category) as post_category_names,
-count(DISTINCT post_category)
+count(DISTINCT post_category) as post_category_count
 from cte1
 group by month_name;
 
@@ -119,7 +104,6 @@ from cte2;
 -- •total_reach
 -- •reach_percentage
 
-select * from fact_content;
 
 select post_type,sum(reach) as total_reach,
 round((sum(reach)/(select sum(reach) from fact_content)) *100,2) as reach_percentage
@@ -127,7 +111,7 @@ from fact_content
 group by post_type
 order by reach_percentage desc;
 
--- Alternate
+-- Alternate: more readable
 
 with cte1 as
 (
@@ -166,16 +150,12 @@ select post_category,Quarter,sum(comments) as total_comments,
 sum(saves) as total_saves from cte1
 group by post_category,Quarter;
 
-select * from dim_dates;
 
 -- 9.List the top three dates in each month with the highest number of new followers.
 -- The final output should include the following columns:
 -- •month
 -- •date
 -- •new_followers
-
-select * from fact_account;
-
 
 with cte1 as
 (
